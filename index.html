@@ -1,0 +1,187 @@
+<!-- تعريف نوع المستند ولغة الصفحة -->
+<!DOCTYPE html>
+<!-- تحديد اللغة العربية واتجاه النص من اليمين لليسار -->
+<html lang="ar" dir="rtl">
+<head>
+    <!-- تحديد ترميز الأحرف UTF-8 لدعم اللغة العربية -->
+    <meta charset="UTF-8">
+    <!-- ضبط إعدادات عرض الصفحة لتكون متجاوبة مع جميع الأجهزة -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- عنوان الصفحة الذي يظهر في تبويب المتصفح -->
+    <title>لعبة الذكاء</title>
+    <!-- ربط ملف الأنماط (CSS) الخارجي لتصميم الصفحة -->
+    <link rel="stylesheet" href="style.css">
+    <!-- ربط خط Cairo من Google Fonts لتحسين مظهر النصوص -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- قسم خاص بالرسوم المتحركة في الخلفية -->
+    <div class="background-animation">
+        <div class="floating-shapes">
+            <!-- أشكال عائمة مختلفة لتأثير بصري -->
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+            <div class="shape shape-5"></div>
+        </div>
+    </div>
+    
+    <!-- الحاوية الرئيسية التي تحتوي على جميع عناصر اللعبة -->
+    <div class="main-container">
+        <!-- رأس اللعبة الذي يحتوي على العنوان والوصف -->
+        <header class="game-header">
+            <!-- عنوان اللعبة الرئيسي مع أيقونة الدماغ -->
+            <h1 class="game-title">
+                <span class="title-icon">🧠</span>
+                لعبة الذكاء
+                <span class="title-glow"></span>
+            </h1>
+            <!-- وصف فرعي للعبة -->
+            <p class="game-subtitle">ابدأ مشوارك في عالم المعرفة</p>
+        </header>
+
+        <!-- حاوية المراحل الرئيسية، تظهر في بداية اللعبة -->
+        <div class="stages-container" id="stages-container">
+            <!-- شبكة لعرض بطاقات المراحل -->
+            <div class="stages-grid">
+                <!-- بطاقة المرحلة الأولى (مستوى سهل) -->
+                <div class="stage-card" id="stage1" data-stage="1">
+                    <div class="stage-icon">🌟</div>
+                    <div class="stage-content">
+                        <h3 class="stage-title">المرحلة الأولى</h3>
+                        <p class="stage-description">مستوى سهل</p>
+                        <div class="stage-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="stage-button" data-stage="1">
+                        <span>ابدأ</span>
+                        <div class="button-glow"></div>
+                    </button>
+                </div>
+
+                <!-- بطاقة المرحلة الثانية (مستوى متوسط)، مغلقة في البداية -->
+                <div class="stage-card locked" id="stage2" data-stage="2">
+                    <div class="stage-icon">🔥</div>
+                    <div class="stage-content">
+                        <h3 class="stage-title">المرحلة الثانية</h3>
+                        <p class="stage-description">مستوى متوسط</p>
+                        <div class="stage-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="stage-button" data-stage="2" disabled>
+                        <span>مغلقة</span>
+                        <div class="lock-icon">🔒</div>
+                    </button>
+                </div>
+
+                <!-- بطاقة المرحلة الثالثة (مستوى متقدم)، مغلقة في البداية -->
+                <div class="stage-card locked" id="stage3" data-stage="3">
+                    <div class="stage-icon">⚡</div>
+                    <div class="stage-content">
+                        <h3 class="stage-title">المرحلة الثالثة</h3>
+                        <p class="stage-description">مستوى متقدم</p>
+                        <div class="stage-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="stage-button" data-stage="3" disabled>
+                        <span>مغلقة</span>
+                        <div class="lock-icon">🔒</div>
+                    </button>
+                </div>
+
+                <!-- بطاقة المرحلة الرابعة (مستوى صعب)، مغلقة في البداية -->
+                <div class="stage-card locked" id="stage4" data-stage="4">
+                    <div class="stage-icon">💎</div>
+                    <div class="stage-content">
+                        <h3 class="stage-title">المرحلة الرابعة</h3>
+                        <p class="stage-description">مستوى صعب</p>
+                        <div class="stage-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="stage-button" data-stage="4" disabled>
+                        <span>مغلقة</span>
+                        <div class="lock-icon">🔒</div>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- حاوية الاختبار (الأسئلة)، مخفية في البداية -->
+        <div class="quiz-container" id="quiz-container" style="display: none;">
+            <div class="quiz-header">
+                <!-- زر العودة إلى شاشة المراحل -->
+                <button class="back-button" id="back-button">
+                    <span>←</span>
+                    العودة
+                </button>
+                <!-- عنوان الاختبار (اسم المرحلة) -->
+                <h2 class="quiz-title" id="quiz-title"></h2>
+                <!-- عداد الأسئلة (مثال: 1 / 5) -->
+                <div class="quiz-progress">
+                    <span class="question-counter" id="question-counter">1 / 5</span>
+                </div>
+            </div>
+
+            <!-- بطاقة السؤال التي تحتوي على نص السؤال والخيارات -->
+            <div class="question-card">
+                <!-- نص السؤال -->
+                <div class="question-text" id="question-text"></div>
+                <!-- حاوية خيارات الإجابة -->
+                <div class="options-container" id="options-container"></div>
+            </div>
+
+            <!-- عناصر التحكم في الاختبار (زر التالي، مخفي حاليًا) -->
+            <div class="quiz-controls">
+                <button class="next-button" id="next-button" style="display: none;">
+                    التالي
+                    <span>→</span>
+                </button>
+            </div>
+
+            <!-- حاوية لعرض التغذية الراجعة (صحيح/خطأ) -->
+            <div class="feedback-container" id="feedback-container"></div>
+        </div>
+
+        <!-- حاوية النتائج، مخفية في البداية -->
+        <div class="result-container" id="result-container" style="display: none;">
+            <div class="result-card">
+                <!-- أيقونة النتيجة (نجاح/فشل) -->
+                <div class="result-icon" id="result-icon"></div>
+                <!-- عنوان النتيجة (تهانينا/حاول مرة أخرى) -->
+                <h2 class="result-title" id="result-title"></h2>
+                <!-- عرض النتيجة (النقاط المحرزة) -->
+                <div class="result-score" id="result-score"></div>
+                <!-- رسالة النتيجة (نجاح المرحلة/تحتاج 5/5) -->
+                <div class="result-message" id="result-message"></div>
+                <!-- زر المتابعة للعودة إلى شاشة المراحل -->
+                <button class="continue-button" id="continue-button">
+                    متابعة
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- تذييل الصفحة الذي يحتوي على اسم المطور -->
+    <footer class="game-footer">
+        <p>صنع بواسطة أسامة سامي</p>
+    </footer>
+
+    <!-- ربط ملف JavaScript لمنطق اللعبة -->
+    <script src="script.js"></script>
+</body>
+</html>
+
+

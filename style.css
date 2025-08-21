@@ -1,0 +1,684 @@
+/* إعادة تعيين الهوامش والحشوات الافتراضية لجميع العناصر وتحديد نموذج الصندوق */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* أنماط الجسم (body) للصفحة */
+body {
+    font-family: 'Cairo', sans-serif; /* تحديد الخط المستخدم */
+    background: #f5f7fa; /* لون الخلفية العام للصفحة */
+    min-height: 100vh; /* تحديد الحد الأدنى للارتفاع لملء الشاشة */
+    direction: rtl; /* تحديد اتجاه النص من اليمين إلى اليسار */
+    overflow-x: hidden; /* إخفاء شريط التمرير الأفقي */
+    position: relative; /* تحديد الموضع النسبي للعناصر الداخلية */
+    color: #2c3e50; /* لون النص الافتراضي */
+}
+
+/* قسم الرسوم المتحركة في الخلفية */
+.background-animation {
+    position: fixed; /* تثبيت العنصر في الخلفية */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* وضعه خلف المحتوى الرئيسي */
+    overflow: hidden; /* إخفاء أي محتوى يتجاوز حدود العنصر */
+    background: linear-gradient(45deg, #e8f4f8 0%, #f0f8ff 50%, #fff5ee 100%); /* تدرج لوني للخلفية */
+}
+
+/* حاوية الأشكال العائمة */
+.floating-shapes {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+/* الأنماط العامة للأشكال العائمة */
+.shape {
+    position: absolute;
+    border-radius: 50%; /* جعل الشكل دائريًا */
+    background: rgba(52, 152, 219, 0.05); /* لون خلفية شفاف */
+    animation: float 8s ease-in-out infinite; /* تطبيق حركة الطفو */
+}
+
+/* أنماط لكل شكل على حدة لتحديد الحجم والموضع وتأخير الحركة */
+.shape-1 {
+    width: 60px;
+    height: 60px;
+    top: 15%;
+    left: 8%;
+    animation-delay: 0s;
+    background: rgba(231, 76, 60, 0.08);
+}
+
+.shape-2 {
+    width: 90px;
+    height: 90px;
+    top: 70%;
+    left: 85%;
+    animation-delay: 3s;
+    background: rgba(46, 204, 113, 0.06);
+}
+
+.shape-3 {
+    width: 45px;
+    height: 45px;
+    top: 85%;
+    left: 15%;
+    animation-delay: 6s;
+    background: rgba(155, 89, 182, 0.07);
+}
+
+.shape-4 {
+    width: 75px;
+    height: 75px;
+    top: 25%;
+    left: 75%;
+    animation-delay: 2s;
+    background: rgba(241, 196, 15, 0.05);
+}
+
+.shape-5 {
+    width: 110px;
+    height: 110px;
+    top: 5%;
+    left: 45%;
+    animation-delay: 4s;
+    background: rgba(52, 152, 219, 0.04);
+}
+
+/* تعريف حركة الطفو (float) */
+@keyframes float {
+    0%, 100% { /* في بداية ونهاية الحركة */
+        transform: translateY(0px) rotate(0deg); /* لا يوجد تحريك عمودي أو دوران */
+        opacity: 0.3; /* شفافية منخفضة */
+    }
+    50% { /* في منتصف الحركة */
+        transform: translateY(-15px) rotate(180deg); /* تحريك للأعلى ودوران */
+        opacity: 0.6; /* شفافية أعلى */
+    }
+}
+
+/* الحاوية الرئيسية للمحتوى */
+.main-container {
+    max-width: 1200px; /* أقصى عرض للحاوية */
+    margin: 0 auto; /* توسيط الحاوية أفقياً */
+    padding: 30px 20px; /* حشوة داخلية */
+    min-height: calc(100vh - 80px); /* الحد الأدنى للارتفاع مع الأخذ في الاعتبار التذييل */
+    display: flex; /* استخدام فليكس بوكس للترتيب */
+    flex-direction: column; /* ترتيب العناصر عمودياً */
+    justify-content: center; /* توسيط المحتوى عمودياً */
+}
+
+/* رأس اللعبة */
+.game-header {
+    text-align: center; /* توسيط النص */
+    margin-bottom: 60px; /* مسافة سفلية */
+    position: relative;
+}
+
+/* عنوان اللعبة */
+.game-title {
+    font-size: 3.2rem; /* حجم الخط */
+    font-weight: 800; /* سمك الخط */
+    color: #2c3e50; /* لون النص */
+    margin-bottom: 15px;
+    position: relative;
+    display: inline-block;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* ظل للنص */
+    letter-spacing: -1px; /* تباعد الأحرف */
+}
+
+/* أيقونة العنوان */
+.title-icon {
+    display: inline-block;
+    margin-left: 20px;
+    font-size: 3rem;
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.1)); /* ظل للأيقونة */
+}
+
+/* إخفاء تأثير التوهج القديم */
+.title-glow {
+    display: none;
+}
+
+/* العنوان الفرعي للعبة */
+.game-subtitle {
+    font-size: 1.4rem;
+    color: #7f8c8d;
+    font-weight: 400;
+    margin-top: 10px;
+    font-style: italic; /* جعل النص مائلاً */
+}
+
+/* حاوية المراحل */
+.stages-container {
+    margin-bottom: 60px;
+}
+
+/* شبكة المراحل */
+.stages-grid {
+    display: grid; /* استخدام شبكة CSS */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* أعمدة متجاوبة */
+    gap: 25px; /* المسافة بين العناصر */
+    padding: 0;
+}
+
+/* بطاقة المرحلة */
+.stage-card {
+    background: #ffffff; /* لون خلفية البطاقة */
+    border-radius: 12px; /* زوايا مستديرة */
+    padding: 35px 25px; /* حشوة داخلية */
+    text-align: center;
+    position: relative;
+    cursor: pointer; /* تغيير شكل المؤشر عند المرور */
+    transition: all 0.3s ease; /* انتقال سلس للتأثيرات */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* ظل للبطاقة */
+    border: 2px solid #ecf0f1; /* حدود البطاقة */
+    overflow: hidden;
+}
+
+/* تأثير التحويم على بطاقة المرحلة (عندما لا تكون مغلقة) */
+.stage-card:hover:not(.locked) {
+    transform: translateY(-3px); /* تحريك البطاقة قليلاً للأعلى */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12); /* ظل أكبر */
+    border-color: #3498db; /* تغيير لون الحدود */
+}
+
+/* أنماط بطاقة المرحلة المغلقة */
+.stage-card.locked {
+    opacity: 0.5; /* جعلها شفافة قليلاً */
+    cursor: not-allowed; /* تغيير شكل المؤشر */
+    background: #f8f9fa;
+    border-color: #dee2e6;
+}
+
+/* أيقونة المرحلة */
+.stage-icon {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    display: block;
+}
+
+/* أيقونة المرحلة المغلقة */
+.stage-card.locked .stage-icon {
+    filter: grayscale(100%); /* تحويل الأيقونة إلى تدرج رمادي */
+}
+
+/* محتوى المرحلة */
+.stage-content {
+    margin-bottom: 30px;
+}
+
+/* عنوان المرحلة */
+.stage-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 8px;
+}
+
+/* وصف المرحلة */
+.stage-description {
+    color: #7f8c8d;
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+/* تقدم المرحلة */
+.stage-progress {
+    margin-top: 20px;
+}
+
+/* شريط التقدم */
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #ecf0f1;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+/* ملء شريط التقدم */
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #3498db, #2980b9); /* تدرج لوني للملء */
+    border-radius: 4px;
+    transition: width 0.4s ease; /* انتقال سلس لتغيير العرض */
+}
+
+/* زر المرحلة */
+.stage-button {
+    background: #3498db; /* لون خلفية الزر */
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 100px;
+    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3); /* ظل للزر */
+}
+
+/* تأثير التحويم على زر المرحلة (عندما لا يكون معطلاً) */
+.stage-button:hover:not(:disabled) {
+    background: #2980b9;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+}
+
+/* أنماط زر المرحلة المعطل */
+.stage-button:disabled {
+    background: #bdc3c7;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* إخفاء تأثير التوهج القديم للزر */
+.button-glow {
+    display: none;
+}
+
+/* أيقونة القفل */
+.lock-icon {
+    margin-right: 8px;
+}
+
+/* حاوية الاختبار (الأسئلة) */
+.quiz-container {
+    background: #ffffff;
+    border-radius: 15px;
+    padding: 40px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e9ecef;
+}
+
+/* رأس قسم الاختبار */
+.quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 35px;
+    padding-bottom: 25px;
+    border-bottom: 2px solid #ecf0f1;
+}
+
+/* زر العودة */
+.back-button {
+    background: #ecf0f1;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+/* تأثير التحويم على زر العودة */
+.back-button:hover {
+    background: #d5dbdb;
+    transform: translateX(-2px);
+}
+
+/* عنوان الاختبار */
+.quiz-title {
+    font-size: 1.6rem;
+    color: #2c3e50;
+    font-weight: 700;
+}
+
+/* عداد الأسئلة */
+.question-counter {
+    background: #34495e;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* بطاقة السؤال */
+.question-card {
+    margin-bottom: 35px;
+}
+
+/* نص السؤال */
+.question-text {
+    font-size: 1.25rem;
+    color: #2c3e50;
+    text-align: center;
+    padding: 30px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    line-height: 1.7;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e9ecef;
+    font-weight: 500;
+}
+
+/* حاوية خيارات الإجابة */
+.options-container {
+    display: grid;
+    gap: 15px;
+}
+
+/* زر خيار الإجابة */
+.option-button {
+    background: white;
+    border: 2px solid #e9ecef;
+    padding: 18px 20px;
+    border-radius: 10px;
+    font-size: 1.05rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: right;
+    position: relative;
+    overflow: hidden;
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+/* تأثير التحويم على زر خيار الإجابة */
+.option-button:hover {
+    border-color: #3498db;
+    background: #f8f9fa;
+    transform: translateX(-3px);
+    box-shadow: 0 3px 10px rgba(52, 152, 219, 0.15);
+}
+
+/* أنماط الإجابة الصحيحة */
+.option-button.correct {
+    background: #d5f4e6;
+    border-color: #27ae60;
+    color: #1e8449;
+}
+
+/* أنماط الإجابة الخاطئة */
+.option-button.incorrect {
+    background: #fadbd8;
+    border-color: #e74c3c;
+    color: #c0392b;
+}
+
+/* أنماط زر الخيار المعطل */
+.option-button:disabled {
+    cursor: not-allowed;
+}
+
+/* عناصر التحكم في الاختبار */
+.quiz-controls {
+    text-align: center;
+    margin-top: 35px;
+}
+
+/* زر التالي (مخفي حالياً في منطق اللعبة الحالي) */
+.next-button {
+    background: #27ae60;
+    color: white;
+    border: none;
+    padding: 14px 35px;
+    border-radius: 8px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 3px 10px rgba(39, 174, 96, 0.3);
+}
+
+/* تأثير التحويم على زر التالي */
+.next-button:hover {
+    background: #229954;
+    transform: translateY(-1px);
+    box-shadow: 0 5px 15px rgba(39, 174, 96, 0.4);
+}
+
+/* حاوية التغذية الراجعة (صحيح/خطأ) */
+.feedback-container {
+    margin-top: 25px;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+/* حاوية النتائج */
+.result-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(44, 62, 80, 0.85); /* خلفية شبه شفافة */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* بطاقة النتائج */
+.result-card {
+    background: white;
+    padding: 50px;
+    border-radius: 15px;
+    text-align: center;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border: 1px solid #e9ecef;
+}
+
+/* أيقونة النتائج */
+.result-icon {
+    font-size: 3.5rem;
+    margin-bottom: 25px;
+}
+
+/* عنوان النتائج */
+.result-title {
+    font-size: 1.8rem;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+/* نقاط النتائج */
+.result-score {
+    font-size: 1.4rem;
+    margin-bottom: 25px;
+    padding: 15px;
+    background: #34495e;
+    color: white;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+/* رسالة النتائج */
+.result-message {
+    font-size: 1.05rem;
+    color: #7f8c8d;
+    margin-bottom: 35px;
+    line-height: 1.6;
+    font-weight: 500;
+}
+
+/* زر المتابعة */
+.continue-button {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 14px 35px;
+    border-radius: 8px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 10px rgba(52, 152, 219, 0.3);
+}
+
+/* تأثير التحويم على زر المتابعة */
+.continue-button:hover {
+    background: #2980b9;
+    transform: translateY(-1px);
+    box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+}
+
+/* تذييل اللعبة */
+.game-footer {
+    text-align: center;
+    padding: 30px 20px;
+    color: #7f8c8d;
+    font-size: 0.9rem;
+    margin-top: auto;
+    border-top: 1px solid #ecf0f1;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+/* اسم المطور في التذييل */
+.developer-credit {
+    display: block;
+    margin-top: 10px;
+    font-size: 1em;
+    color: #95a5a6;
+    font-weight: 600;
+}
+
+/* تعديلات الاستجابة (Responsive adjustments) */
+/* للشاشات التي يصل عرضها الأقصى إلى 1024 بكسل */
+@media (max-width: 1024px) {
+    .main-container {
+        padding: 25px 15px;
+    }
+    .game-title {
+        font-size: 2.8rem;
+    }
+    .game-subtitle {
+        font-size: 1.2rem;
+    }
+    .stages-grid {
+        gap: 20px;
+    }
+    .stage-card {
+        padding: 30px 20px;
+    }
+    .quiz-container {
+        padding: 30px;
+    }
+    .quiz-title {
+        font-size: 1.4rem;
+    }
+    .question-text {
+        font-size: 1.15rem;
+        padding: 25px;
+    }
+    .option-button {
+        font-size: 1rem;
+        padding: 16px 18px;
+    }
+    .result-card {
+        padding: 40px;
+    }
+}
+
+/* للشاشات التي يصل عرضها الأقصى إلى 768 بكسل (التابلت) */
+@media (max-width: 768px) {
+    .game-title {
+        font-size: 2.4rem;
+    }
+    .stages-grid {
+        grid-template-columns: 1fr; /* عمود واحد */
+        gap: 18px;
+    }
+    .quiz-container {
+        padding: 25px;
+        margin: 15px;
+    }
+    .quiz-header {
+        flex-direction: column; /* ترتيب عمودي للعناصر */
+        gap: 15px;
+        text-align: center;
+    }
+    .question-text {
+        font-size: 1.1rem;
+        padding: 20px;
+    }
+    .result-card {
+        padding: 35px;
+        margin: 20px;
+    }
+    .back-button {
+        width: 100%; /* جعل الزر يملأ العرض */
+        justify-content: center; /* توسيط محتوى الزر */
+    }
+}
+
+/* للشاشات التي يصل عرضها الأقصى إلى 480 بكسل (الجوالات الصغيرة) */
+@media (max-width: 480px) {
+    .game-title {
+        font-size: 2rem;
+    }
+    .game-subtitle {
+        font-size: 1rem;
+    }
+    .stage-card {
+        padding: 25px 18px;
+    }
+    .stage-title {
+        font-size: 1.2rem;
+    }
+    .stage-description {
+        font-size: 0.9rem;
+    }
+    .stage-button {
+        font-size: 0.95rem;
+        padding: 10px 22px;
+    }
+    .quiz-container {
+        padding: 20px;
+    }
+    .quiz-title {
+        font-size: 1.3rem;
+    }
+    .question-text {
+        font-size: 1rem;
+        padding: 18px;
+    }
+    .option-button {
+        font-size: 0.95rem;
+        padding: 15px;
+    }
+    .next-button {
+        font-size: 1rem;
+        padding: 12px 28px;
+    }
+    .result-card {
+        padding: 30px;
+    }
+    .result-title {
+        font-size: 1.6rem;
+    }
+    .result-score {
+        font-size: 1.2rem;
+    }
+    .result-message {
+        font-size: 1rem;
+    }
+    .continue-button {
+        font-size: 1rem;
+        padding: 12px 28px;
+    }
+}
